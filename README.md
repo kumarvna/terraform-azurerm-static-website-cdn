@@ -78,9 +78,9 @@ Sensitive output values are still recorded in the [state](https://www.terraform.
 
 ## Adding TAG's to your Azure resources
 
-Use tags to organize your Azure resources and management hierarchy. You apply tags to your Azure resources, resource groups, and subscriptions to logically organize them into a taxonomy. Each tag consists of a name and a value pair. For example, you can apply the name "Environment" and the value "Production" to all the resources in production. You can manage these as variables directly or using `variables.tf` as well.
+Use tags to organize your Azure resources and management hierarchy. You can apply tags to your Azure resources, resource groups, and subscriptions to logically organize them into a taxonomy. Each tag consists of a name and a value pair. For example, you can apply the name "Environment" and the value "Production" to all the resources in production. You can manage these values variables directly or mapping as a variable using `variables.tf`.
 
-All network resources which support tagging can be tagged by specifying key-values in argument `tags`. Tag Name is added automatically on all resources. For eg, you can specify `tags` like this as per your environment:
+All network resources which support tagging can be tagged by specifying key-values in argument `tags`. Tag Name is added automatically on all resources. For example, you can specify `tags` like this as per environment:
 
 ```
 module "static-website-cdn" {
