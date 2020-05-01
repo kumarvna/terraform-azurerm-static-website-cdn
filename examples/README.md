@@ -14,18 +14,23 @@ By default, this module will not create a resource group and the name of an exis
 
 ## Adding TAG's to your Azure resources
 
-Use tags to organize your Azure resources and management hierarchy. You apply tags to your Azure resources, resource groups, and subscriptions to logically organize them into a taxonomy. Each tag consists of a name and a value pair. For example, you can apply the name "Environment" and the value "Production" to all the resources in production. This is expected and must provide the following details as per your environment. There are no default values available for these arguments.
+Use tags to organize your Azure resources and management hierarchy. You apply tags to your Azure resources, resource groups, and subscriptions to logically organize them into a taxonomy. Each tag consists of a name and a value pair. For example, you can apply the name "Environment" and the value "Production" to all the resources in production. You can manage these as variables directly or using `variables.tf` as well.
 
-Here I have added the values directly. However, you can manage these as variables under `variables.tf` as well.  
+All network resources which support tagging can be tagged by specifying key-values in argument `tags`. Tag Name is added automatically on all resources. For eg, you can specify `tags` like this as per your environment:
 
 ```
-  application_name      = "demoapp01"
-  owner_email           = "user@example.com"
-  business_unit         = "publiccloud"
-  costcenter_id         = "5847596"
-  environment           = "development"
-```
+module "static-website-cdn" {
+  source        = "kumarvna/static-website-cdn/azurerm"
+  version       = "1.0.0"
+  # ... omitted
 
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+    Owner       = "test-user"
+  }
+}  
+```
 ## Module Usage
 
 ## Static Website
@@ -33,22 +38,25 @@ Here I have added the values directly. However, you can manage these as variable
 Following example to create a storage account with static website.
 
 ```
-module "storageacc" {
-  source                  = "github.com/kumarvna/terraform-azurerm-static-website-cdn?ref=v1.0.0"
+module "static-website-cdn" {
+  source                  = "kumarvna/static-website-cdn/azurerm"
+  version                 = "1.0.0"
+  
+  # Resource Group
   create_resource_group   = false
-  resource_group_name     = "rg-azure-westeurope-01"
+  resource_group_name     = "rg-demo-westeurope-01"
   location                = "westeurope"
   storage_account_name    = "storageaccwesteupore01"
+
   # Static Website options
   enable_static_website   = true
   static_website_source_folder = var.static_website_source_folder
-  # Tags to map
+  
+  # Tags for Azure resources 
   tags = {
-    application_name      = "demoapp01"
-    owner_email           = "user@example.com"
-    business_unit         = "publiccloud"
-    costcenter_id         = "5847596"
-    environment           = "development"
+    Terraform   = "true"
+    Environment = "dev"
+    Owner       = "test-user"
   }
 }
 ```
@@ -58,25 +66,30 @@ module "storageacc" {
 Following example to create a storage account, static website with CDN endpoint.
 
 ```
-module "staticweb" {
-  source                  = "github.com/kumarvna/terraform-azurerm-static-website-cdn?ref=v1.0.0"
+module "static-website-cdn" {
+  source                  = "kumarvna/static-website-cdn/azurerm"
+  version                 = "1.0.0"
+  
+  # Resource Group
   create_resource_group   = false
   resource_group_name     = "rg-demo-westeurope-01"
   location                = "westeurope"
   storage_account_name    = "storageaccwesteupore01"
+
   # Static Website options
   enable_static_website   = true
   static_website_source_folder = var.static_website_source_folder
-# CDN endpoint for satic website
+
+  # CDN endpoint for satic website 
   enable_cdn_profile      = true
   cdn_profile_name        = var.cdn_profile_name
   cdn_sku_profile         = var.cdn_sku_profile
+  
+  # Tags for Azure resources 
   tags = {
-    application_name      = "demoapp01"
-    owner_email           = "user@example.com"
-    business_unit         = "publiccloud"
-    costcenter_id         = "5847596"
-    environment           = "development"
+    Terraform   = "true"
+    Environment = "dev"
+    Owner       = "test-user"
   }
 }
 ```

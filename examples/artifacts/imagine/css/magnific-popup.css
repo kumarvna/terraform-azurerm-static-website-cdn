@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2042;
+  z-index: 1042;
   overflow: hidden;
   position: fixed;
   background: #0b0b0b;
@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2043;
+  z-index: 1043;
   position: fixed;
   outline: none !important;
   -webkit-backface-visibility: hidden; }
@@ -45,7 +45,7 @@
   vertical-align: middle;
   margin: 0 auto;
   text-align: left;
-  z-index: 2045; }
+  z-index: 1045; }
 
 .mfp-inline-holder .mfp-content,
 .mfp-ajax-holder .mfp-content {
@@ -92,7 +92,7 @@
   margin-top: -0.8em;
   left: 8px;
   right: 8px;
-  z-index: 2044; }
+  z-index: 1044; }
   .mfp-preloader a {
     color: #CCC; }
     .mfp-preloader a:hover {
@@ -114,7 +114,7 @@ button.mfp-arrow {
   display: block;
   outline: none;
   padding: 0;
-  z-index: 2046;
+  z-index: 1046;
   box-shadow: none;
   touch-action: manipulation; }
 

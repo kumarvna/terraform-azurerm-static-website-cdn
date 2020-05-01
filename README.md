@@ -23,25 +23,30 @@ Note: *static_website can only be created when the account_kind is set to Storag
 Following example to create a storage account and set up a static website with CDN endpoint.
 
 ```
-module "staticweb" {
-  source                  = "github.com/kumarvna/terraform-azurerm-static-website-cdn?ref=v1.0.0"
+module "static-website-cdn" {
+  source                  = "kumarvna/static-website-cdn/azurerm"
+  version                 = "1.0.0"
+  
+  # Resource Group
   create_resource_group   = false
   resource_group_name     = "rg-demo-westeurope-01"
   location                = "westeurope"
   storage_account_name    = "storageaccwesteupore01"
+
   # Static Website options
   enable_static_website   = true
   static_website_source_folder = var.static_website_source_folder
-# CDN endpoint for satic website
+
+  # CDN endpoint for satic website 
   enable_cdn_profile      = true
   cdn_profile_name        = var.cdn_profile_name
   cdn_sku_profile         = var.cdn_sku_profile
+  
+  # Tags for Azure resources 
   tags = {
-    application_name      = "demoapp01"
-    owner_email           = "user@example.com"
-    business_unit         = "publiccloud"
-    costcenter_id         = "5847596"
-    environment           = "development"
+    Terraform   = "true"
+    Environment = "dev"
+    Owner       = "test-user"
   }
 }
 ```
@@ -54,7 +59,7 @@ By default, this module will not create a resource group and the name of an exis
 
 ## Static Website
 
-Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web.  To learn more, see [Static website hosting in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website).
+Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web.  To learn more, see [Static website hosting in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website). 
 
 Set the argument `enable_static_website = true` and set the folder path for static content to
   `static_website_source_folder = "../artifacts/website"`.
@@ -70,6 +75,26 @@ An output can be marked as containing sensitive material using the optional `sen
 Setting an output value in the root module as sensitive prevents Terraform from showing its value in the list of outputs at the end of `terraform apply`. It might still be shown in the CLI output for other reasons, like if the value is referenced in an expression for a resource argument.
 
 Sensitive output values are still recorded in the [state](https://www.terraform.io/docs/state/index.html), and so will be visible to anyone who is able to access the state data. Storing state remotely can provide better security. For more information, see [Sensitive Data in State.](https://www.terraform.io/docs/state/sensitive-data.html)
+
+## Adding TAG's to your Azure resources
+
+Use tags to organize your Azure resources and management hierarchy. You apply tags to your Azure resources, resource groups, and subscriptions to logically organize them into a taxonomy. Each tag consists of a name and a value pair. For example, you can apply the name "Environment" and the value "Production" to all the resources in production. You can manage these as variables directly or using `variables.tf` as well.
+
+All network resources which support tagging can be tagged by specifying key-values in argument `tags`. Tag Name is added automatically on all resources. For eg, you can specify `tags` like this as per your environment:
+
+```
+module "static-website-cdn" {
+  source        = "kumarvna/static-website-cdn/azurerm"
+  version       = "1.0.0"
+  # ... omitted
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+    Owner       = "test-user"
+  }
+}
+```
 
 ## Inputs
 
