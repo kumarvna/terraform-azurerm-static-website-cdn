@@ -4,11 +4,9 @@ Configuration in this directory creates Azure storage account and enable the sta
 
 ## Module Usage
 
-## Static Website
-
 Following example to create a storage account with static website.
 
-```
+```hcl
 module "static-website-cdn" {
   source                  = "kumarvna/static-website-cdn/azurerm"
   version                 = "1.0.0"
@@ -23,7 +21,7 @@ module "static-website-cdn" {
   enable_static_website   = true
   static_website_source_folder = var.static_website_source_folder
   
-  # Tags for Azure resources 
+  # Tags for Azure resources
   tags = {
     Terraform   = "true"
     Environment = "dev"
@@ -36,10 +34,10 @@ module "static-website-cdn" {
 
 To run this example you need to execute following Terraform commands
 
-```
-$ terraform init
-$ terraform plan
-$ terraform apply
+```bash
+terraform init
+terraform plan
+terraform apply
 ```
 
 Run `terraform destroy` when you don't need these resources.

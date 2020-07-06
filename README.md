@@ -1,7 +1,5 @@
 # Azure Static website with CDN Endpoint
 
-[![Terraform](https://img.shields.io/badge/Terraform%20-0.12-brightgreen.svg?style=flat)](https://github.com/hashicorp/terraform/releases) [![License](https://img.shields.io/badge/License%20-MIT-brightgreen.svg?style=flat)](https://github.com/kumarvna/cloudascode/blob/master/LICENSE)
-
 Terraform Module to create an Azure storage account and enable the static website and create optional CDN service for the static website.
 
 You can configure your storage account to accept requests from secure connections only by setting the `enable_https_traffic_only = true` for the storage account. By default, this property is enabled when you create a storage account using this module.
@@ -13,16 +11,14 @@ Note: *static_website can only be created when the account_kind is set to Storag
 ## These types of resources are supported
 
 * [Storage Account](https://www.terraform.io/docs/providers/azurerm/r/storage_account.html)
-
 * [Static Website](https://www.terraform.io/docs/providers/azurerm/r/storage_account.html#static_website)
-
 * [Content Delivery Network (CDN)](https://www.terraform.io/docs/providers/azurerm/r/cdn_endpoint.html)
 
 ## Module Usage
 
 Following example to create a storage account and set up a static website with CDN endpoint.
 
-```
+```hcl
 module "static-website-cdn" {
   source                  = "kumarvna/static-website-cdn/azurerm"
   version                 = "1.0.0"
@@ -37,12 +33,12 @@ module "static-website-cdn" {
   enable_static_website   = true
   static_website_source_folder = var.static_website_source_folder
 
-  # CDN endpoint for satic website 
+  # CDN endpoint for satic website
   enable_cdn_profile      = true
   cdn_profile_name        = var.cdn_profile_name
   cdn_sku_profile         = var.cdn_sku_profile
   
-  # Tags for Azure resources 
+  # Tags for Azure resources
   tags = {
     Terraform   = "true"
     Environment = "dev"
@@ -53,13 +49,13 @@ module "static-website-cdn" {
 
 ## Create resource group
 
-By default, this module will not create a resource group and the name of an existing resource group to be given in an argument `create_resource_group`. If you want to create a new resource group, set the argument `create_resource_group = true`.
+By default, this module will not create a resource group and the name of an existing resource group to be given in an argument `resource_group_name`. If you want to create a new resource group, set the argument `create_resource_group = true`.
 
 *If you are using an existing resource group, then this module uses the same resource group location to create all resources in this module.*
 
 ## Static Website
 
-Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web.  To learn more, see [Static website hosting in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website). 
+Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web.  To learn more, see [Static website hosting in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website).
 
 Set the argument `enable_static_website = true` and set the folder path for static content to
   `static_website_source_folder = "../artifacts/website"`.
@@ -82,7 +78,7 @@ Use tags to organize your Azure resources and management hierarchy. You can appl
 
 All Azure resources which support tagging can be tagged by specifying key-values in argument `tags`. Tag Name is added automatically on all resources. For example, you can specify `tags` like this:
 
-```
+```hcl
 module "static-website-cdn" {
   source        = "kumarvna/static-website-cdn/azurerm"
   version       = "1.0.0"

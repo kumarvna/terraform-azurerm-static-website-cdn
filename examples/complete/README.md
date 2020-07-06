@@ -4,11 +4,9 @@ Configuration in this directory creates Azure storage account and enable the sta
 
 ## Module Usage
 
-## Static Website with CDN endpoint
-
 Following example to create a storage account, static website with CDN endpoint.
 
-```
+```hcl
 module "static-website-cdn" {
   source                  = "kumarvna/static-website-cdn/azurerm"
   version                 = "1.0.0"
@@ -23,12 +21,12 @@ module "static-website-cdn" {
   enable_static_website   = true
   static_website_source_folder = var.static_website_source_folder
 
-  # CDN endpoint for satic website 
+  # CDN endpoint for satic website
   enable_cdn_profile      = true
   cdn_profile_name        = var.cdn_profile_name
   cdn_sku_profile         = var.cdn_sku_profile
   
-  # Tags for Azure resources 
+  # Tags for Azure resources
   tags = {
     Terraform   = "true"
     Environment = "dev"
@@ -41,10 +39,10 @@ module "static-website-cdn" {
 
 To run this example you need to execute following Terraform commands
 
-```
-$ terraform init
-$ terraform plan
-$ terraform apply
+```hcl
+terraform init
+terraform plan
+terraform apply
 ```
 
 Run `terraform destroy` when you don't need these resources.
