@@ -33,8 +33,7 @@ resource "azurerm_storage_account" "storeacc" {
   dynamic "static_website" {
     for_each = local.if_static_website_enabled
     content {
-      index_document     = "index.html"
-      error_404_document = "404.html"
+      index_document = "index.js"
     }
   }
 
