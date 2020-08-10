@@ -77,7 +77,7 @@ variable "tags" {
 variable "index_path" {
   type        = string
   description = "path from your repo root to index.html"
-  default     = "public/index.html"
+  default     = "index.html"
 }
 
 # variable "custom_404_path" {
