@@ -33,8 +33,8 @@ resource "azurerm_storage_account" "storeacc" {
   dynamic "static_website" {
     for_each = local.if_static_website_enabled
     content {
-      index_document = var.index_path
-      error_document = var.custom_404_path
+      index_document     = var.index_path
+      error_404_document = var.custom_404_path
     }
   }
 
