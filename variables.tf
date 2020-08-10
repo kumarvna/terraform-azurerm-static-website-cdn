@@ -77,11 +77,11 @@ variable "tags" {
 variable "index_path" {
   type        = string
   description = "path from your repo root to index.html"
-  default     = "./public/static/index.html"
+  default     = "public/static/index.html"
 }
 
 variable "custom_404_path" {
   type        = string
   description = "path from your repo root to your custom 404 page"
-  default     = "./public/static/404.html"
+  default     = "public/static/404.html"
 }
