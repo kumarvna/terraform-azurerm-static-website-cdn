@@ -80,8 +80,8 @@ variable "index_path" {
   default     = "public/index.html"
 }
 
-variable "custom_404_path" {
-  type        = string
-  description = "path from your repo root to your custom 404 page"
-  default     = "public/404.html"
-}
+# variable "custom_404_path" {
+#   type        = string
+#   description = "path from your repo root to your custom 404 page"
+#   default     = "public/404.html"
+# }
