@@ -34,7 +34,7 @@ resource "azurerm_storage_account" "storeacc" {
     for_each = local.if_static_website_enabled
     content {
       index_document     = var.index_path
-      # error_404_document = var.custom_404_path
+      error_404_document = var.custom_404_path
     }
   }
 
