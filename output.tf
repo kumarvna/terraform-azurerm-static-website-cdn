@@ -3,7 +3,7 @@ output "storage_account_id" {
   description = "The ID of the storage account."
 }
 
-output "sorage_account_name" {
+output "storage_account_name" {
   value       = azurerm_storage_account.storeacc.name
   description = "The name of the storage account."
 }

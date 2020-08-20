@@ -97,12 +97,13 @@ module "static-website-cdn" {
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
+| azurerm | ~> 2.23 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | n/a |
+| azurerm | ~> 2.23 |
 | null | n/a |
 | random | n/a |
 
@@ -132,11 +133,11 @@ module "static-website-cdn" {
 
 | Name | Description |
 |------|-------------|
-| sorage\_account\_name | The name of the storage account. |
 | static\_website\_cdn\_endpoint\_hostname | CDN endpoint URL for Static website |
 | static\_website\_cdn\_profile\_name | CDN profile name for the static website |
 | static\_website\_url | static web site URL from storage account |
 | storage\_account\_id | The ID of the storage account. |
+| storage\_account\_name | The name of the storage account. |
 | storage\_primary\_access\_key | The primary access key for the storage account. |
 | storage\_primary\_connection\_string | The primary connection string for the storage account. |
 
