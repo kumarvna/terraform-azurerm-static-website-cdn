@@ -26,11 +26,11 @@ output "static_website_cdn_endpoint_hostname" {
 }
 
 output "static_website_cdn_profile_name" {
-  value = element(concat(azurerm_cdn_profile.cdn-profile.*.name, [""]), 0)
+  value       = element(concat(azurerm_cdn_profile.cdn-profile.*.name, [""]), 0)
   description = "CDN profile name for the static website"
 }
 
 output "static_website_url" {
-  value = azurerm_storage_account.storeacc.primary_web_host
+  value       = azurerm_storage_account.storeacc.primary_web_host
   description = "static web site URL from storage account"
 }
