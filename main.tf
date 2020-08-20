@@ -2,15 +2,10 @@ locals {
   account_tier             = (var.account_kind == "FileStorage" ? "Premium" : split("_", var.sku)[0])
   account_replication_type = (local.account_tier == "Premium" ? "LRS" : split("_", var.sku)[1])
   resource_group_name = element(
-  coalescelist(data.azurerm_resource_group.rgrp.*.name, azurerm_resource_group.rg.*.name, [""]), 0)
+  coalescelist(azurerm_resource_group.rg.*.name, [var.resource_group_name]), 0)
   location = element(
-  coalescelist(data.azurerm_resource_group.rgrp.*.location, azurerm_resource_group.rg.*.location, [""]), 0)
+  coalescelist(azurerm_resource_group.rg.*.location, [var.location]), 0)
   if_static_website_enabled = var.enable_static_website ? [{}] : []
-}
-
-data "azurerm_resource_group" "rgrp" {
-  count = var.create_resource_group ? 0 : 1
-  name  = var.resource_group_name
 }
 
 resource "azurerm_resource_group" "rg" {
