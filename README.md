@@ -91,35 +91,56 @@ module "static-website-cdn" {
   }
 }
 ```
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.13 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| azurerm | n/a |
+| null | n/a |
+| random | n/a |
 
 ## Inputs
 
-Name | Description | Type | Default
----- | ----------- | ---- | -------
-`create_resource_group` | Whether to create resource group and use it for all networking resources | string | `"false"`
-`resource_group_name`|The name of an existing resource group.|string|`"rg-demo-westeurope-01"`
-`location`|The location for all resources while creating a new resource group.|string|`"westeurope"`
-`account_kind`|General-purpose v2 accounts: Basic storage account type for blobs, files, queues, and tables.|string|`"StorageV2"`
-`enable_static_website` | Whether to create static website | string | `"false"`
-`static_website_source_folder`|source folder path to copy files to static website storage blob|string|`""`
-`enable_cdn_profile`|CDN profile and endpoint for static website|string|`"false"`
-`cdn_sku_profile`|The pricing related information of current CDN profile.|string|`"Standard_Akamai"`
-`Tags`|A map of tags to add to all resources|map|`{}`
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| access\_tier | The access tier of the storage account. | `string` | `"Hot"` | no |
+| account\_kind | The kind of storage account. | `string` | `"StorageV2"` | no |
+| assign\_identity | Set to `true` to enable system-assigned managed identity, or `false` to disable it. | `bool` | `true` | no |
+| cdn\_profile\_name | Specify the cdn profile name | `string` | `"StaticCdnProfile"` | no |
+| cdn\_sku\_profile | The pricing related information of current CDN profile. Accepted values are 'Standard\_Akamai', 'Standard\_ChinaCdn', 'Standard\_Microsoft', 'Standard\_Verizon' or 'Premium\_Verizon'. | `string` | `"Standard_Akamai"` | no |
+| create\_resource\_group | Whether to create resource group and use it for all networking resources | `bool` | `false` | no |
+| custom\_404\_path | path from your repo root to your custom 404 page | `string` | `"404.html"` | no |
+| enable\_cdn\_profile | set to 'true' to enable the CDN profile and endpoint for static website | `bool` | `false` | no |
+| enable\_https\_traffic | Set to `true` to allow HTTPS traffic, or `false` to disable it. | `bool` | `true` | no |
+| enable\_static\_website | Set to `true` to enable static website or `false` to disable it | `bool` | `false` | no |
+| index\_path | path from your repo root to index.html | `string` | `"index.html"` | no |
+| location | The location/region to keep all your network resources. To get the list of all locations with table format from azure cli, run 'az account list-locations -o table' | `string` | `"westeurope"` | no |
+| resource\_group\_name | A container that holds related resources for an Azure solution | `string` | `"rg-demo-westeurope-01"` | no |
+| sku | The SKU of the storage account. | `string` | `"Standard_GRS"` | no |
+| static\_website\_source\_folder | Set a source folder path to copy static website files to static website storage blob | `string` | `""` | no |
+| storage\_account\_name | The name of the storage account to be created | `string` | `""` | no |
+| tags | A map of tags to add to all resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
-Name | Description
----- | -----------
-`resource_group_name` | The name of the resource group in which resources are created
-`resource_group_id` | The id of the resource group in which resources are created
-`resource_group_location`| The location of the resource group in which resources are created
-`storage_account_id` | The ID of the storage account
-`sorage_account_name`| The name of the storage account
-`storage_primary_connection_string`|The primary connection string for the storage account
-`storage_primary_access_key`|The primary access key for the storage account
-`static_website_url`|Static web site URL from storage account
-`static_website_cdn_profile_name`|Name of the CDN profile
-`static_website_cdn_endpoint_url`| CDN URL for static website
+| Name | Description |
+|------|-------------|
+| sorage\_account\_name | The name of the storage account. |
+| static\_website\_cdn\_endpoint\_hostname | CDN endpoint URL for Static website |
+| static\_website\_cdn\_profile\_name | CDN profile name for the static website |
+| static\_website\_url | static web site URL from storage account |
+| storage\_account\_id | The ID of the storage account. |
+| storage\_primary\_access\_key | The primary access key for the storage account. |
+| storage\_primary\_connection\_string | The primary connection string for the storage account. |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Resource Graph
 
