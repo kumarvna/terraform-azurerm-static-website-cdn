@@ -13,3 +13,13 @@ variable "cdn_profile_name" {
 variable "cdn_sku_profile" {
   default = "Standard_Akamai"
 }
+
+variable "index_path" {
+  description = "path from your repo root to index.html"
+  default     = "index.html"
+}
+
+variable "custom_404_path" {
+  description = "path from your repo root to your custom 404 page"
+  default     = "404.html"
+}
