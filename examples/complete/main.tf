@@ -3,9 +3,10 @@ module "static-website-cdn" {
   version = "2.0.0"
 
   # Resource Group, location, and Storage account details
-  resource_group_name  = "rg-demo-westeurope-01"
-  location             = "westeurope"
-  storage_account_name = "storageaccwesteupore01"
+  create_resource_group = true
+  resource_group_name   = "rg-demo-westeurope-01"
+  location              = "westeurope"
+  storage_account_name  = "storageaccwesteupore01"
 
   # Static Website createion set to true by default
   # account_kind should set to StorageV2 or BlockBlobStorage
