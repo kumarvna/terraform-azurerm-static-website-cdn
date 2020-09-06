@@ -21,6 +21,6 @@ output "storage_primary_access_key" {
 }
 
 output "static_website_url" {
-  value = module.static-website-cdn.static_website_url
+  value       = module.static-website-cdn.static_website_url
   description = "static web site URL from storage account"
 }
