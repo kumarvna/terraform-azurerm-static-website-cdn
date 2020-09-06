@@ -4,13 +4,13 @@ variable "create_resource_group" {
 }
 
 variable "resource_group_name" {
-  description = "A container that holds related resources for an Azure solution"
-  default     = "rg-demo-westeurope-01"
+  description = "The name of the resource group in which resources are created"
+  default     = ""
 }
 
 variable "location" {
-  description = "The location/region to keep all your network resources. To get the list of all locations with table format from azure cli, run 'az account list-locations -o table'"
-  default     = "westeurope"
+  description = "The location of the resource group in which resources are created"
+  default     = ""
 }
 
 variable "storage_account_name" {
@@ -19,69 +19,67 @@ variable "storage_account_name" {
 }
 
 variable "account_kind" {
-  default     = "StorageV2"
   description = "The kind of storage account."
+  default     = "StorageV2"
 }
 
 variable "sku" {
-  default     = "Standard_GRS"
   description = "The SKU of the storage account."
+  default     = "Standard_GRS"
 }
 
 variable "access_tier" {
-  default     = "Hot"
   description = "The access tier of the storage account."
+  default     = "Hot"
 }
 
 variable "enable_https_traffic" {
+  description = "Configure the storage account to accept requests from secure connections only. Possible values are `true` or `false`"
   default     = true
-  description = "Set to `true` to allow HTTPS traffic, or `false` to disable it."
 }
 
 variable "enable_static_website" {
-  default     = false
-  description = "Set to `true` to enable static website or `false` to disable it"
+  description = "Controls if static website to be enabled on the storage account. Possible values are `true` or `false`"
+  default     = true
 }
 
 variable "static_website_source_folder" {
-  default     = ""
   description = "Set a source folder path to copy static website files to static website storage blob"
+  default     = ""
 }
 
 variable "assign_identity" {
+  description = "Specifies the identity type of the Storage Account. At this time the only allowed value is SystemAssigned."
   default     = true
-  description = "Set to `true` to enable system-assigned managed identity, or `false` to disable it."
 }
 
 variable "enable_cdn_profile" {
+  description = "Controls the creation of CDN profile and endpoint for static website. Possible values are `true` or `false`"
   default     = false
-  description = " set to 'true' to enable the CDN profile and endpoint for static website"
 }
 
 variable "cdn_profile_name" {
-  description = "Specify the cdn profile name"
-  default     = "StaticCdnProfile"
+  description = "Specifies the name of the CDN Profile"
+  default     = ""
 }
 
 variable "cdn_sku_profile" {
-  default     = "Standard_Akamai"
   description = "The pricing related information of current CDN profile. Accepted values are 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Standard_Verizon' or 'Premium_Verizon'."
+  default     = "Standard_Akamai"
+}
+
+variable "index_path" {
+  description = "path from your repo root to index.html"
+  default     = "index.html"
+}
+
+variable "custom_404_path" {
+  description = "path from your repo root to your custom 404 page"
+  default     = "404.html"
 }
 
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
-}
-
-variable "index_path" {
-  type        = string
-  description = "path from your repo root to index.html"
-  default     = "index.html"
-}
-
-variable "custom_404_path" {
-  type        = string
-  description = "path from your repo root to your custom 404 page"
-  default     = "404.html"
 }
