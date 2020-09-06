@@ -1,21 +1,21 @@
 variable "create_resource_group" {
-    description = "Whether to create resource group and use it for all networking resources"
-    default     = false
+  description = "Whether to create resource group and use it for all networking resources"
+  default     = false
 }
 
 variable "resource_group_name" {
-    description = "A container that holds related resources for an Azure solution"
-    default     = "rg-demo-westeurope-01"
+  description = "A container that holds related resources for an Azure solution"
+  default     = "rg-demo-westeurope-01"
 }
 
 variable "location" {
-    description = "The location/region to keep all your network resources. To get the list of all locations with table format from azure cli, run 'az account list-locations -o table'"
-    default     = "westeurope"
+  description = "The location/region to keep all your network resources. To get the list of all locations with table format from azure cli, run 'az account list-locations -o table'"
+  default     = "westeurope"
 }
 
 variable "storage_account_name" {
-    description = "The name of the storage account to be created"
-    default     = ""
+  description = "The name of the storage account to be created"
+  default     = ""
 }
 
 variable "account_kind" {
@@ -40,11 +40,11 @@ variable "enable_https_traffic" {
 
 variable "enable_static_website" {
   default     = false
-  description = "Set to `true` to enable static website or `false` to disable it" 
+  description = "Set to `true` to enable static website or `false` to disable it"
 }
 
 variable "static_website_source_folder" {
-  default     =   ""
+  default     = ""
   description = "Set a source folder path to copy static website files to static website storage blob"
 }
 
@@ -60,16 +60,28 @@ variable "enable_cdn_profile" {
 
 variable "cdn_profile_name" {
   description = "Specify the cdn profile name"
-  default = "StaticCdnProfile"
+  default     = "StaticCdnProfile"
 }
 
 variable "cdn_sku_profile" {
-  default = "Standard_Akamai"
-  description = "The pricing related information of current CDN profile. Accepted values are 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Standard_Verizon' or 'Premium_Verizon'." 
+  default     = "Standard_Akamai"
+  description = "The pricing related information of current CDN profile. Accepted values are 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Standard_Verizon' or 'Premium_Verizon'."
 }
 
 variable "tags" {
-    description = "A map of tags to add to all resources"
-    type        =  map(string)
-    default     = {}
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "index_path" {
+  type        = string
+  description = "path from your repo root to index.html"
+  default     = "index.html"
+}
+
+variable "custom_404_path" {
+  type        = string
+  description = "path from your repo root to your custom 404 page"
+  default     = "404.html"
 }

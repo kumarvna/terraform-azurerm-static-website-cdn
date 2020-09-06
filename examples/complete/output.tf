@@ -26,11 +26,11 @@ output "static_website_cdn_endpoint_hostname" {
 }
 
 output "static_website_cdn_profile_name" {
-  value = module.static-website-cdn.static_website_cdn_profile_name
+  value       = module.static-website-cdn.static_website_cdn_profile_name
   description = "CDN profile name for the static website"
 }
 
 output "static_website_url" {
-  value = module.static-website-cdn.static_website_url
+  value       = module.static-website-cdn.static_website_url
   description = "static web site URL from storage account"
 }
