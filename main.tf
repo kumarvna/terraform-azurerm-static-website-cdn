@@ -1,3 +1,6 @@
+#---------------------------------------------------------
+# Local declarations
+#----------------------------------------------------------
 locals {
   account_tier              = (var.account_kind == "FileStorage" ? "Premium" : split("_", var.sku)[0])
   account_replication_type  = (local.account_tier == "Premium" ? "LRS" : split("_", var.sku)[1])
@@ -5,6 +8,10 @@ locals {
   location                  = element(coalescelist(data.azurerm_resource_group.rgrp.*.location, azurerm_resource_group.rg.*.location, [""]), 0)
   if_static_website_enabled = var.enable_static_website ? [{}] : []
 }
+
+#-------------------------------------------------------------
+# Resource Group Creation or selection - Default is "false"
+#-------------------------------------------------------------
 
 data "azurerm_resource_group" "rgrp" {
   count = var.create_resource_group ? 0 : 1
@@ -18,6 +25,9 @@ resource "azurerm_resource_group" "rg" {
   tags     = merge({ "Name" = format("%s", var.resource_group_name) }, var.tags, )
 }
 
+#---------------------------------------------------------
+# Storage Account Creation and enable static website
+#----------------------------------------------------------
 resource "azurerm_storage_account" "storeacc" {
   name                      = var.storage_account_name
   resource_group_name       = local.resource_group_name
@@ -49,6 +59,9 @@ resource "null_resource" "copyfilesweb" {
   }
 }
 
+#---------------------------------------------------------
+# Add CDN profile and endpoint to static website
+#----------------------------------------------------------
 resource "azurerm_cdn_profile" "cdn-profile" {
   count               = var.enable_static_website && var.enable_cdn_profile ? 1 : 0
   name                = var.cdn_profile_name
