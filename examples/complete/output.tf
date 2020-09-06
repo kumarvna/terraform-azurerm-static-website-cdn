@@ -3,8 +3,8 @@ output "storage_account_id" {
   description = "The ID of the storage account."
 }
 
-output "sorage_account_name" {
-  value       = module.static-website-cdn.sorage_account_name
+output "storage_account_name" {
+  value       = module.static-website-cdn.storage_account_name
   description = "The name of the storage account."
 }
 
