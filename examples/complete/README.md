@@ -45,3 +45,15 @@ terraform apply
 ```
 
 Run `terraform destroy` when you don't need these resources.
+
+## Outputs
+
+Name | Description
+---- | -----------
+`static_website_cdn_endpoint_hostname` | CDN endpoint URL for Static website
+`static_website_cdn_profile_name` | CDN profile name for the static website
+`static_website_url` | static web site URL from storage account
+`storage_account_id` | The ID of the storage account
+`storage_account_name` | The name of the storage account
+`storage_primary_access_key` | The primary access key for the storage account
+`storage_primary_connection_string` | The primary connection string for the storage account
