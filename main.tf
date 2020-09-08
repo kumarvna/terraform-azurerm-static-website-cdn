@@ -77,8 +77,8 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
   }
 
   url_rewrite_action {
-    source_pattern = "/[^?.]*(\?.*)?$"
-    destination = "/index.html"
+    source_pattern = "/.*"
+    destination    = "/index.html"
   }
 
 }
