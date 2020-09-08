@@ -76,9 +76,11 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
     host_name = azurerm_storage_account.storeacc.primary_web_host
   }
 
-  url_rewrite_action {
-    source_pattern = "/"
-    destination    = "/index.html"
+  global_delivery_rule {
+    url_rewrite_action {
+      source_pattern = "/"
+      destination    = "/index.html"
+    }
   }
 
 }
