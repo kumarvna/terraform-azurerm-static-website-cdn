@@ -33,6 +33,16 @@ resource "azurerm_storage_account" "storeacc" {
     }
   }
 
+  blob_properties {
+    cors_rule {
+      allowed_methods    = var.allowed_methods
+      allowed_origins    = var.allowed_origins
+      allowed_headers    = var.allowed_headers
+      exposed_headers    = var.exposed_headers
+      max_age_in_seconds = var.max_age_in_seconds
+    }
+  }
+
   identity {
     type = var.assign_identity ? "SystemAssigned" : null
   }
@@ -63,25 +73,27 @@ resource "random_string" "unique" {
 }
 
 resource "azurerm_cdn_endpoint" "cdn-endpoint" {
-  count               = var.enable_static_website && var.enable_cdn_profile ? 1 : 0
-  name                = random_string.unique.0.result
-  profile_name        = azurerm_cdn_profile.cdn-profile.0.name
-  location            = local.location
-  resource_group_name = local.resource_group_name
-  origin_host_header  = azurerm_storage_account.storeacc.primary_web_host
-  # querystring_caching_behaviour = "IgnoreQueryString"
+  count                         = var.enable_static_website && var.enable_cdn_profile ? 1 : 0
+  name                          = random_string.unique.0.result
+  profile_name                  = azurerm_cdn_profile.cdn-profile.0.name
+  location                      = local.location
+  resource_group_name           = local.resource_group_name
+  origin_host_header            = azurerm_storage_account.storeacc.primary_web_host
+  querystring_caching_behaviour = "IgnoreQueryString"
+
+
 
   origin {
     name      = "websiteorginaccount"
-    host_name = azurerm_storage_account.storeacc.primary_web_host
+    host_name = length(var.custom_domain_name) > 0 ? var.custom_domain_name : azurerm_storage_account.storeacc.primary_web_host
   }
 
-  global_delivery_rule {
-    url_rewrite_action {
-      source_pattern = "/"
-      destination    = "/index.html"
-    }
-  }
+  # global_delivery_rule {
+  #   url_rewrite_action {
+  #     source_pattern = "/"
+  #     destination    = "/index.html"
+  #   }
+  # }
 
 }
 
