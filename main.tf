@@ -88,12 +88,5 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
     host_name = length(var.custom_domain_name) > 0 ? var.custom_domain_name : azurerm_storage_account.storeacc.primary_web_host
   }
 
-  # global_delivery_rule {
-  #   url_rewrite_action {
-  #     source_pattern = "/"
-  #     destination    = "/index.html"
-  #   }
-  # }
-
 }
 
