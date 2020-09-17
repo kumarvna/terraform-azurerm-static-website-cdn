@@ -110,13 +110,13 @@ module "static-website-cdn" {
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| azurerm | ~> 2.23 |
+| azurerm | ~> 2.27 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 2.23 |
+| azurerm | ~> 2.27 |
 | null | n/a |
 | random | n/a |
 
