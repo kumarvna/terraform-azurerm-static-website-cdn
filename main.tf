@@ -91,12 +91,12 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
 }
 
 resource "null_resource" "add_custom_domain" {
-  depends_on [
+  depends_on = [
     azurerm_cdn_endpoint.cdn-endpoint
   ]
 
   provisioner "local-exec" {
-    command = <<EOF
+    command     = <<EOF
 Import-Module Az.Cdn -Force
 $profile = Get-AzCdnProfile -ProfileName StaticCdnProfile -ResourceGroupName $RG_NAME
 $endpoint = Get-AzCdnEndpoint -ProfileName $profile.Name -ResourceGroupName $RG_NAME
@@ -128,7 +128,7 @@ EOF
     interpreter = ["/usr/bin/pwsh"]
     environment = {
       CUSTOM_DOMAIN = var.custom_domain_name
-      RG_NAME = var.resource_group_name
+      RG_NAME       = var.resource_group_name
     }
   }
 }
