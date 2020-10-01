@@ -92,7 +92,7 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
 
 resource "null_resource" "add_custom_domain" {
   depends_on [
-    "azurerm_cdn_endpoint.cdn-endpoint"
+    azurerm_cdn_endpoint.cdn-endpoint
   ]
 
   provisioner "local-exec" {
