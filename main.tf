@@ -85,8 +85,50 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
 
   origin {
     name      = "websiteorginaccount"
-    host_name = length(var.custom_domain_name) > 0 ? var.custom_domain_name : azurerm_storage_account.storeacc.primary_web_host
+    host_name = azurerm_storage_account.storeacc.primary_web_host
   }
 
 }
 
+resource "null_resource" "add_custom_domain" {
+  depends_on [
+    "azurerm_cdn_endpoint.cdn-endpoint"
+  ]
+
+  provisioner "local-exec" {
+    command = <<EOF
+Import-Module Az.Cdn -Force
+$profile = Get-AzCdnProfile -ProfileName StaticCdnProfile -ResourceGroupName $RG_NAME
+$endpoint = Get-AzCdnEndpoint -ProfileName $profile.Name -ResourceGroupName $RG_NAME
+
+if(($endpoint.CustomHttpsProvisioningState -ne ('Enabled' -or 'Enabling'))
+{
+  $azCustomDomain = $null
+  try {
+    Write-Host "Enabling custom domain $CUSTOM_DOMAIN..."
+    $azCustomDomain = New-AzCdnCustomDomain -HostName $CUSTOM_DOMAIN -CdnEndpoint $endpoint -CustomDomainName "FundamentalIncome"
+  }
+  catch {
+    Write-Error "Fatal: Could not enable CDN Custom Domain for $CUSTOM_DOMAIN!"
+    throw;
+  }
+
+  try {
+    Write-Host "Enabling HTTPS for $CUSTOM_DOMAIN..."
+    Enable-AzCdnCustomDomainHttps -ResourceId $azCustomDomain.Id
+  }
+  catch {
+    Write-Error "Error enabling HTTPS for $CUSTOM_DOMAIN..."
+    throw;
+  }
+
+  Write-Host "Success:  CDN configured for HTTPS at $CUSTOM_DOMAIN" -ForegroundColor Green
+}
+EOF
+    interpreter = ["/usr/bin/pwsh"]
+    environment = {
+      CUSTOM_DOMAIN = var.custom_domain_name
+      RG_NAME = var.resource_group_name
+    }
+  }
+}
