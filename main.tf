@@ -90,3 +90,16 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
 
 }
 
+resource "null_resource" "add_custom_domain" {
+  depends_on = [
+    azurerm_cdn_endpoint.cdn-endpoint
+  ]
+
+  provisioner "local-exec" {
+    command = "pwsh ${path.cwd}/Setup-AzCdnCustomDomain.ps1"
+    environment = {
+      CUSTOM_DOMAIN = var.custom_domain_name
+      RG_NAME       = var.resource_group_name
+    }
+  }
+}
