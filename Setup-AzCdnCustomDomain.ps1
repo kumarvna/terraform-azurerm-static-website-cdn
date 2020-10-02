@@ -1,3 +1,4 @@
+Install-Modules Az.Cdn -Force
 Import-Module Az.Cdn -Force
 $cdnProfile = Get-AzCdnProfile -ProfileName StaticCdnProfile -ResourceGroupName $env:RG_NAME
 $endpoint = Get-AzCdnEndpoint -ProfileName $cdnProfile.Name -ResourceGroupName $env:RG_NAME
