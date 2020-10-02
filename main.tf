@@ -96,36 +96,7 @@ resource "null_resource" "add_custom_domain" {
   ]
 
   provisioner "local-exec" {
-    command     = <<EOF
-Import-Module Az.Cdn -Force
-$profile = Get-AzCdnProfile -ProfileName StaticCdnProfile -ResourceGroupName $RG_NAME
-$endpoint = Get-AzCdnEndpoint -ProfileName $profile.Name -ResourceGroupName $RG_NAME
-
-if(($endpoint.CustomHttpsProvisioningState -ne ('Enabled' -or 'Enabling'))
-{
-  $azCustomDomain = $null
-  try {
-    Write-Host "Enabling custom domain $CUSTOM_DOMAIN..."
-    $azCustomDomain = New-AzCdnCustomDomain -HostName $CUSTOM_DOMAIN -CdnEndpoint $endpoint -CustomDomainName "FundamentalIncome"
-  }
-  catch {
-    Write-Error "Fatal: Could not enable CDN Custom Domain for $CUSTOM_DOMAIN!"
-    throw;
-  }
-
-  try {
-    Write-Host "Enabling HTTPS for $CUSTOM_DOMAIN..."
-    Enable-AzCdnCustomDomainHttps -ResourceId $azCustomDomain.Id
-  }
-  catch {
-    Write-Error "Error enabling HTTPS for $CUSTOM_DOMAIN..."
-    throw;
-  }
-
-  Write-Host "Success:  CDN configured for HTTPS at $CUSTOM_DOMAIN" -ForegroundColor Green
-}
-EOF
-    interpreter = ["/usr/bin/pwsh"]
+    command = "pwsh ${path.cwd}/Setup-AzCdnCustomDomain.ps1"
     environment = {
       CUSTOM_DOMAIN = var.custom_domain_name
       RG_NAME       = var.resource_group_name
