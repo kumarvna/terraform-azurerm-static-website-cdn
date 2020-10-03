@@ -1,6 +1,6 @@
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # Resource Group, location, and Storage account details
   create_resource_group = true
@@ -18,6 +18,9 @@ module "static-website-cdn" {
   enable_cdn_profile = true
   cdn_profile_name   = var.cdn_profile_name
   cdn_sku_profile    = var.cdn_sku_profile
+
+  # Custom domain for CDN endpoint
+  custom_domain_name = "web.example.com"
 
   # Adding TAG's to your Azure resources (Required)
   tags = {
