@@ -11,7 +11,7 @@ Following example to create a storage account with static website.
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # Resource Group, location, and Storage account details
   resource_group_name  = "rg-demo-westeurope-01"
@@ -40,7 +40,7 @@ Following example to create a storage account, static website with CDN endpoint.
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # Resource Group, location, and Storage account details
   create_resource_group = true
@@ -54,7 +54,7 @@ module "static-website-cdn" {
   index_path                   = var.index_path
   custom_404_path              = var.custom_404_path
 
-  # CDN endpoint for satic website
+  # CDN endpoint for satic website 
   enable_cdn_profile = true
   cdn_profile_name   = var.cdn_profile_name
   cdn_sku_profile    = var.cdn_sku_profile

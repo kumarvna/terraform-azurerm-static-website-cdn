@@ -18,7 +18,7 @@ These types of resources are supported
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # Resource Group, location, and Storage account details
   create_resource_group = true
@@ -52,8 +52,6 @@ module "static-website-cdn" {
 ## Create resource group
 
 By default, this module will not create a resource group and the name of an existing resource group to be given in an argument `resource_group_name`. If you want to create a new resource group, set the argument `create_resource_group = true`.
-
->*If you are using an existing resource group, then this module uses the same resource group location to create all resources in this module.*
 
 ## Static Website
 
@@ -103,7 +101,7 @@ End Date of the Project|Date when this application, workload, or service is plan
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # ... omitted
 
