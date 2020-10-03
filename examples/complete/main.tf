@@ -19,6 +19,9 @@ module "static-website-cdn" {
   cdn_profile_name   = var.cdn_profile_name
   cdn_sku_profile    = var.cdn_sku_profile
 
+  # Custom domain for CDN endpoint
+  custom_domain_name = "web.example.com"
+
   # Adding TAG's to your Azure resources (Required)
   tags = {
     Terraform   = "true"

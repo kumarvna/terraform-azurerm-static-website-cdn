@@ -10,9 +10,10 @@ module "static-website-cdn" {
   version = "2.0.0"
 
   # Resource Group, location, and Storage account details
-  resource_group_name  = "rg-demo-westeurope-01"
-  location             = "westeurope"
-  storage_account_name = "storageaccwesteupore01"
+  create_resource_group = true
+  resource_group_name   = "rg-demo-westeurope-01"
+  location              = "westeurope"
+  storage_account_name  = "storageaccwesteupore01"
 
   # Static Website createion set to true by default
   # account_kind should set to StorageV2 or BlockBlobStorage
@@ -25,6 +26,9 @@ module "static-website-cdn" {
   cdn_profile_name   = var.cdn_profile_name
   cdn_sku_profile    = var.cdn_sku_profile
 
+  # Custom domain for CDN endpoint
+  custom_domain_name = "web.example.com"
+  
   # Adding TAG's to your Azure resources (Required)
   tags = {
     Terraform   = "true"
@@ -48,12 +52,12 @@ Run `terraform destroy` when you don't need these resources.
 
 ## Outputs
 
-Name | Description
----- | -----------
-`static_website_cdn_endpoint_hostname` | CDN endpoint URL for Static website
-`static_website_cdn_profile_name` | CDN profile name for the static website
-`static_website_url` | static web site URL from storage account
-`storage_account_id` | The ID of the storage account
-`storage_account_name` | The name of the storage account
-`storage_primary_access_key` | The primary access key for the storage account
-`storage_primary_connection_string` | The primary connection string for the storage account
+| Name | Description |
+|------|-------------|
+| static\_website\_cdn\_endpoint\_hostname | CDN endpoint URL for Static website |
+| static\_website\_cdn\_profile\_name | CDN profile name for the static website |
+| static\_website\_url | static web site URL from storage account |
+| storage\_account\_id | The ID of the storage account. |
+| storage\_account\_name | The name of the storage account. |
+| storage\_primary\_access\_key | The primary access key for the storage account. |
+| storage\_primary\_connection\_string | The primary connection string for the storage account. |
