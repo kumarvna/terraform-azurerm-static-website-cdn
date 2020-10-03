@@ -1,6 +1,6 @@
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # Resource Group, location, and Storage account details
   resource_group_name  = "rg-demo-westeurope-01"

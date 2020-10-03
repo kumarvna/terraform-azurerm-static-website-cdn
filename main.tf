@@ -2,20 +2,13 @@
 # Local declarations
 #----------------------------------------------------------
 locals {
-  account_tier              = (var.account_kind == "FileStorage" ? "Premium" : split("_", var.sku)[0])
-  account_replication_type  = (local.account_tier == "Premium" ? "LRS" : split("_", var.sku)[1])
-  resource_group_name       = element(coalescelist(data.azurerm_resource_group.rgrp.*.name, azurerm_resource_group.rg.*.name, [""]), 0)
-  location                  = element(coalescelist(data.azurerm_resource_group.rgrp.*.location, azurerm_resource_group.rg.*.location, [""]), 0)
+  account_tier             = (var.account_kind == "FileStorage" ? "Premium" : split("_", var.sku)[0])
+  account_replication_type = (local.account_tier == "Premium" ? "LRS" : split("_", var.sku)[1])
+  resource_group_name = element(
+  coalescelist(azurerm_resource_group.rg.*.name, [var.resource_group_name]), 0)
+  location = element(
+  coalescelist(azurerm_resource_group.rg.*.location, [var.location]), 0)
   if_static_website_enabled = var.enable_static_website ? [{}] : []
-}
-
-#-------------------------------------------------------------
-# Resource Group Creation or selection - Default is "false"
-#-------------------------------------------------------------
-
-data "azurerm_resource_group" "rgrp" {
-  count = var.create_resource_group ? 0 : 1
-  name  = var.resource_group_name
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -43,6 +36,16 @@ resource "azurerm_storage_account" "storeacc" {
     content {
       index_document     = var.index_path
       error_404_document = var.custom_404_path
+    }
+  }
+
+  blob_properties {
+    cors_rule {
+      allowed_methods    = var.allowed_methods
+      allowed_origins    = var.allowed_origins
+      allowed_headers    = var.allowed_headers
+      exposed_headers    = var.exposed_headers
+      max_age_in_seconds = var.max_age_in_seconds
     }
   }
 
@@ -91,5 +94,20 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
     name      = "websiteorginaccount"
     host_name = azurerm_storage_account.storeacc.primary_web_host
   }
+
 }
 
+resource "null_resource" "add_custom_domain" {
+  count = var.custom_domain_name != null ? 1 : 0
+  depends_on = [
+    azurerm_cdn_endpoint.cdn-endpoint
+  ]
+
+  provisioner "local-exec" {
+    command = "pwsh ${path.cwd}/Setup-AzCdnCustomDomain.ps1"
+    environment = {
+      CUSTOM_DOMAIN = var.custom_domain_name
+      RG_NAME       = var.resource_group_name
+    }
+  }
+}

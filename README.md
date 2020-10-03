@@ -11,29 +11,35 @@ These types of resources are supported
 * [Storage Account](https://www.terraform.io/docs/providers/azurerm/r/storage_account.html)
 * [Static Website](https://www.terraform.io/docs/providers/azurerm/r/storage_account.html#static_website)
 * [Content Delivery Network (CDN)](https://www.terraform.io/docs/providers/azurerm/r/cdn_endpoint.html)
+* [Custom domain with an Azure CDN endpoint](https://docs.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain)
 
 ## Module Usage
 
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # Resource Group, location, and Storage account details
-  resource_group_name  = "rg-demo-westeurope-01"
-  location             = "westeurope"
-  storage_account_name = "storageaccwesteupore01"
+  create_resource_group = true
+  resource_group_name   = "rg-demo-westeurope-01"
+  location              = "westeurope"
+  storage_account_name  = "storageaccwesteupore01"
 
-  # Static Website createion requirements
+  # Static Website createion set to true by default
   # account_kind should set to StorageV2 or BlockBlobStorage
-  enable_static_website        = true
   static_website_source_folder = var.static_website_source_folder
+  index_path                   = var.index_path
+  custom_404_path              = var.custom_404_path
 
   # CDN endpoint for satic website
   enable_cdn_profile = true
   cdn_profile_name   = var.cdn_profile_name
   cdn_sku_profile    = var.cdn_sku_profile
 
+  # Custom domain for CDN endpoint
+  custom_domain_name = "web.example.com"
+  
   # Adding TAG's to your Azure resources (Required)
   tags = {
     Terraform   = "true"
@@ -47,8 +53,6 @@ module "static-website-cdn" {
 
 By default, this module will not create a resource group and the name of an existing resource group to be given in an argument `resource_group_name`. If you want to create a new resource group, set the argument `create_resource_group = true`.
 
->*If you are using an existing resource group, then this module uses the same resource group location to create all resources in this module.*
-
 ## Static Website
 
 Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web. By default, this module enables the creation of a static website. To upload the static website content, set the folder path using argument `static_website_source_folder`.
@@ -56,6 +60,12 @@ Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) 
 ## CDN Endpoint for Static Website
 
 To add content delivery network acceleration to the static website, set the argument `enable_cdn_profile = true` and also provide appropriate values to the  `cdn_profile_name` and `cdn_sku_profile` arguments.
+
+## Custom domain with an Azure CDN endpoint
+
+Before you can use a custom domain with an Azure CDN endpoint, you must first create a canonical name (CNAME) record with your domain provider to point to your CDN endpoint. For Azure CDN, the source domain name is your custom domain name and the destination domain name is your CDN endpoint hostname. After Azure CDN verifies the CNAME record that you create, traffic addressed to the source custom domain (such as www.contoso.com) is routed to the specified destination CDN endpoint hostname (such as contoso.azureedge.net).
+
+A custom domain and its subdomain can be associated with only a single endpoint at a time. However, you can use different subdomains from the same custom domain for different Azure service endpoints by using multiple CNAME records. You can also map a custom domain with different subdomains to the same CDN endpoint. This can be added using `custom_domain_name` argument with this module.
 
 ## Recommended naming and tagging conventions
 
@@ -91,7 +101,7 @@ End Date of the Project|Date when this application, workload, or service is plan
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   # ... omitted
 
@@ -116,43 +126,53 @@ module "static-website-cdn" {
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 2.27 |
+| azurerm |2.27 |
 | null | n/a |
 | random | n/a |
 
 ## Inputs
 
-| Name | Description | Type | Default |
-|------|-------------|------|---------|
-`create_resource_group` | Whether to create resource group and use it for all networking resources | `string` | `false`
-`resource_group_name` |The name of the resource group in which resources are created| `string` | `""`
-`location` | The location of the resource group in which resources are created | `string` | `""`
-`storage_account_name` | The name of the storage account to be created | `string` | `""`
-`account_kind` | The kind of storage account | `string` | `"StorageV2"`
-`sku` | The SKU of the storage account| `string` | `"Standard_GRS"`
-`access_tier` | The access tier of the storage account| `string` | `"Hot"`
-`enable_https_traffic` | Configure the storage account to accept requests from secure connections only. Possible values are `true` or `false`| `string` | `true`
-`enable_static_website`|Controls if static website to be enabled on the storage account. Possible values are `true` or `false`| `string` | `false`
-`static_website_source_folder` | Set a source folder path to copy static website files to static website storage blob | `string` | `""`
-`assign_identity` |Specifies the identity type of the Storage Account| `string` | `true`
-`enable_cdn_profile` | Controls the creation of CDN profile and endpoint for static website | `string` | `false`
-`cdn_profile_name` | Specifies the name of the CDN Profile | `string` | `""`
-`cdn_sku_profile` | The pricing related information of current CDN profile. Accepted values are `Standard_Akamai`, `Standard_ChinaCdn`, `Standard_Microsoft`, `Standard_Verizon` or `Premium_Verizon`. | `string` | `"Standard_Akamai"`
-`custom_404_path` | path from your repo root to your custom 404 page | `string` | `"404.html"` | no |
-`index_path` | path from your repo root to index.html | `string` | `"index.html"`
-`tags` | A map of tags to add to all resources | `map(string)` | `{}`
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| access\_tier | The access tier of the storage account. | `string` | `"Hot"` | no |
+| account\_kind | The kind of storage account. | `string` | `"StorageV2"` | no |
+| allowed\_headers | A list of headers that are allowed to be a part of the cross-origin request. | `list(string)` | `[]` | no |
+| allowed\_methods | A list of http headers that are allowed to be executed by the origin. Valid options are `DELETE`, `GET`, `HEAD`, `MERGE`, `POST`, `OPTIONS`, `PUT` or `PATCH`. | `list(string)` | <pre>[<br>  "GET",<br>  "HEAD"<br>]</pre> | no |
+| allowed\_origins | A list of origin domains that will be allowed by CORS. | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
+| assign\_identity | Set to `true` to enable system-assigned managed identity, or `false` to disable it. | `bool` | `true` | no |
+| cdn\_profile\_name | Specify the cdn profile name | `string` | `"StaticCdnProfile"` | no |
+| cdn\_sku\_profile | The pricing related information of current CDN profile. Accepted values are 'Standard\_Akamai', 'Standard\_ChinaCdn', 'Standard\_Microsoft', 'Standard\_Verizon' or 'Premium\_Verizon'. | `string` | `"Standard_Akamai"` | no |
+| create\_resource\_group | Whether to create resource group and use it for all networking resources | `bool` | `false` | no |
+| custom\_404\_path | path from your repo root to your custom 404 page | `string` | `"404.html"` | no |
+| custom\_domain\_name | The custom domain name to use for your website | `string` | `""` | no |
+| enable\_cdn\_profile | set to 'true' to enable the CDN profile and endpoint for static website | `bool` | `false` | no |
+| enable\_https\_traffic | Set to `true` to allow HTTPS traffic, or `false` to disable it. | `bool` | `true` | no |
+| enable\_static\_website | Set to `true` to enable static website or `false` to disable it | `bool` | `false` | no |
+| exposed\_headers | A list of response headers that are exposed to CORS clients. | `list(string)` | `[]` | no |
+| index\_path | path from your repo root to index.html | `string` | `"index.html"` | no |
+| location | The location/region to keep all your network resources. To get the list of all locations with table format from azure cli, run 'az account list-locations -o table' | `string` | `"westeurope"` | no |
+| max\_age\_in\_seconds | The number of seconds the client should cache a preflight response.  Defaults to 2 days | `number` | `172800` | no |
+| resource\_group\_name | A container that holds related resources for an Azure solution | `string` | `"rg-demo-westeurope-01"` | no |
+| sku | The SKU of the storage account. | `string` | `"Standard_GRS"` | no |
+| static\_website\_source\_folder | Set a source folder path to copy static website files to static website storage blob | `string` | `""` | no |
+| storage\_account\_name | The name of the storage account to be created | `string` | `""` | no |
+| tags | A map of tags to add to all resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-`static_website_cdn_endpoint_hostname` | CDN endpoint URL for Static website
-`static_website_cdn_profile_name` | CDN profile name for the static website
-`static_website_url` | static web site URL from storage account
-`storage_account_id` | The ID of the storage account
-`storage_account_name` | The name of the storage account
-`storage_primary_access_key` | The primary access key for the storage account
-`storage_primary_connection_string` | The primary connection string for the storage account
+| static\_website\_cdn\_endpoint\_hostname | CDN endpoint URL for Static website |
+| static\_website\_cdn\_profile\_name | CDN profile name for the static website |
+| static\_website\_url | static web site URL from storage account |
+| storage\_account\_id | The ID of the storage account. |
+| storage\_account\_name | The name of the storage account. |
+| storage\_primary\_access\_key | The primary access key for the storage account. |
+| storage\_primary\_connection\_string | The primary connection string for the storage account. |
+
+## Resource Graph
+
+![Resource Graph](graph.png)
 
 ## Authors
 
