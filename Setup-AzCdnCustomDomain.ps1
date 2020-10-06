@@ -5,7 +5,7 @@ $endpoint = Get-AzCdnEndpoint -ProfileName $cdnProfile.Name -ResourceGroupName $
 $azCustomDomain = $null
 
 # The friendly name of the custom domain in Azure Portal
-$azCdnCustomDomainName = 'FundamentalIncome'
+$azCdnCustomDomainName = $env:FRIENDLY_NAME
 
 try {
   Write-Host 'Checking for existing custom domain name...'
