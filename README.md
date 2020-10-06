@@ -116,19 +116,18 @@ module "static-website-cdn" {
 ```
 <!-- Do not Remove below, it allows for doc auto-updating -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| azurerm | ~> 2.27 |
+| azurerm | ~> 2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm |2.27 |
+| azurerm | ~> 2.0 |
 | null | n/a |
 | random | n/a |
 
@@ -141,20 +140,21 @@ module "static-website-cdn" {
 | allowed\_headers | A list of headers that are allowed to be a part of the cross-origin request. | `list(string)` | `[]` | no |
 | allowed\_methods | A list of http headers that are allowed to be executed by the origin. Valid options are `DELETE`, `GET`, `HEAD`, `MERGE`, `POST`, `OPTIONS`, `PUT` or `PATCH`. | `list(string)` | <pre>[<br>  "GET",<br>  "HEAD"<br>]</pre> | no |
 | allowed\_origins | A list of origin domains that will be allowed by CORS. | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
-| assign\_identity | Set to `true` to enable system-assigned managed identity, or `false` to disable it. | `bool` | `true` | no |
-| cdn\_profile\_name | Specify the cdn profile name | `string` | `"StaticCdnProfile"` | no |
+| assign\_identity | Specifies the identity type of the Storage Account. At this time the only allowed value is SystemAssigned. | `bool` | `true` | no |
+| cdn\_profile\_name | Specifies the name of the CDN Profile | `string` | `""` | no |
 | cdn\_sku\_profile | The pricing related information of current CDN profile. Accepted values are 'Standard\_Akamai', 'Standard\_ChinaCdn', 'Standard\_Microsoft', 'Standard\_Verizon' or 'Premium\_Verizon'. | `string` | `"Standard_Akamai"` | no |
 | create\_resource\_group | Whether to create resource group and use it for all networking resources | `bool` | `false` | no |
 | custom\_404\_path | path from your repo root to your custom 404 page | `string` | `"404.html"` | no |
-| custom\_domain\_name | The custom domain name to use for your website | `string` | `""` | no |
-| enable\_cdn\_profile | set to 'true' to enable the CDN profile and endpoint for static website | `bool` | `false` | no |
-| enable\_https\_traffic | Set to `true` to allow HTTPS traffic, or `false` to disable it. | `bool` | `true` | no |
-| enable\_static\_website | Set to `true` to enable static website or `false` to disable it | `bool` | `false` | no |
+| custom\_domain\_name | The custom domain name to use for your website | `string` | `null` | no |
+| enable\_cdn\_profile | Controls the creation of CDN profile and endpoint for static website. Possible values are `true` or `false` | `bool` | `false` | no |
+| enable\_https\_traffic | Configure the storage account to accept requests from secure connections only. Possible values are `true` or `false` | `bool` | `true` | no |
+| enable\_static\_website | Controls if static website to be enabled on the storage account. Possible values are `true` or `false` | `bool` | `true` | no |
 | exposed\_headers | A list of response headers that are exposed to CORS clients. | `list(string)` | `[]` | no |
+| friendly\_name | The friendly name of your custom domain in the Azure Portal | `string` | n/a | yes |
 | index\_path | path from your repo root to index.html | `string` | `"index.html"` | no |
-| location | The location/region to keep all your network resources. To get the list of all locations with table format from azure cli, run 'az account list-locations -o table' | `string` | `"westeurope"` | no |
+| location | The location of the resource group in which resources are created | `string` | `""` | no |
 | max\_age\_in\_seconds | The number of seconds the client should cache a preflight response.  Defaults to 2 days | `number` | `172800` | no |
-| resource\_group\_name | A container that holds related resources for an Azure solution | `string` | `"rg-demo-westeurope-01"` | no |
+| resource\_group\_name | The name of the resource group in which resources are created | `string` | `""` | no |
 | sku | The SKU of the storage account. | `string` | `"Standard_GRS"` | no |
 | static\_website\_source\_folder | Set a source folder path to copy static website files to static website storage blob | `string` | `""` | no |
 | storage\_account\_name | The name of the storage account to be created | `string` | `""` | no |
