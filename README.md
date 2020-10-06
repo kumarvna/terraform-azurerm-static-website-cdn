@@ -114,6 +114,8 @@ module "static-website-cdn" {
   }
 }  
 ```
+<!-- Do not Remove below, it allows for doc auto-updating -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Requirements
 
@@ -170,9 +172,11 @@ module "static-website-cdn" {
 | storage\_primary\_access\_key | The primary access key for the storage account. |
 | storage\_primary\_connection\_string | The primary connection string for the storage account. |
 
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Resource Graph
 
-![Resource Graph](graph.png)
+![Resource Graph](graph.svg)
 
 ## Authors
 
