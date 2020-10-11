@@ -108,6 +108,7 @@ resource "null_resource" "add_custom_domain" {
     environment = {
       CUSTOM_DOMAIN = var.custom_domain_name
       RG_NAME       = var.resource_group_name
+      FRIENDLY_NAME = var.friendly_name
     }
   }
 }

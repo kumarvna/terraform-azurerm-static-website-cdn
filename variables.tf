@@ -84,6 +84,11 @@ variable "custom_domain_name" {
   default     = null
 }
 
+variable "friendly_name" {
+  type        = string
+  description = "The friendly name of your custom domain in the Azure Portal"
+}
+
 variable "allowed_methods" {
   type        = list(string)
   description = " A list of http headers that are allowed to be executed by the origin. Valid options are `DELETE`, `GET`, `HEAD`, `MERGE`, `POST`, `OPTIONS`, `PUT` or `PATCH`."
