@@ -121,13 +121,13 @@ module "static-website-cdn" {
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| azurerm | ~> 2.0 |
+| azurerm | ~> 2.27.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 2.0 |
+| azurerm | ~> 2.27.0 |
 | null | n/a |
 | random | n/a |
 
@@ -146,6 +146,7 @@ module "static-website-cdn" {
 | create\_resource\_group | Whether to create resource group and use it for all networking resources | `bool` | `false` | no |
 | custom\_404\_path | path from your repo root to your custom 404 page | `string` | `"404.html"` | no |
 | custom\_domain\_name | The custom domain name to use for your website | `string` | `null` | no |
+| friendly\_name | The friendly name of the custom domain in Azure Portal|`string` | `""` | no |
 | enable\_cdn\_profile | Controls the creation of CDN profile and endpoint for static website. Possible values are `true` or `false` | `bool` | `false` | no |
 | enable\_https\_traffic | Configure the storage account to accept requests from secure connections only. Possible values are `true` or `false` | `bool` | `true` | no |
 | enable\_static\_website | Controls if static website to be enabled on the storage account. Possible values are `true` or `false` | `bool` | `true` | no |
@@ -176,7 +177,7 @@ module "static-website-cdn" {
 
 ## Resource Graph
 
-![Resource Graph](graph.svg)
+![Resource Graph](graph.png)
 
 ## Authors
 
@@ -185,5 +186,4 @@ Module is maintained by [Kumaraswamy Vithanala](mailto:kumarvna@gmail.com) with 
 ## Other resources
 
 * [Azure Storage documentation](https://docs.microsoft.com/en-us/azure/storage/)
-
 * [Terraform AzureRM Provider Documentation](https://www.terraform.io/docs/providers/azurerm/index.html)
