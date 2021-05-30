@@ -38,6 +38,11 @@ variable "enable_https_traffic" {
   default     = true
 }
 
+variable "min_tls_version" {
+  description = "The minimum supported TLS version for the storage account"
+  default     = "TLS1_2"
+}
+
 variable "enable_static_website" {
   description = "Controls if static website to be enabled on the storage account. Possible values are `true` or `false`"
   default     = true
@@ -107,13 +112,13 @@ variable "allowed_origins" {
 variable "allowed_headers" {
   type        = list(string)
   description = "A list of headers that are allowed to be a part of the cross-origin request."
-  default     = []
+  default     = ["*"]
 }
 
 variable "exposed_headers" {
   type        = list(string)
   description = "A list of response headers that are exposed to CORS clients."
-  default     = []
+  default     = ["*"]
 }
 
 variable "max_age_in_seconds" {

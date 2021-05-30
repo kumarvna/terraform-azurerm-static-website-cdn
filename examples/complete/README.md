@@ -7,7 +7,7 @@ Configuration in this directory creates Azure storage account and enable the sta
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.1.0"
+  version = "2.2.0"
 
   # Resource Group, location, and Storage account details
   create_resource_group = true
@@ -28,6 +28,7 @@ module "static-website-cdn" {
 
   # Custom domain for CDN endpoint
   custom_domain_name = "web.example.com"
+  friendly_name      = "mywebapp"
 
   # Adding TAG's to your Azure resources (Required)
   tags = {
