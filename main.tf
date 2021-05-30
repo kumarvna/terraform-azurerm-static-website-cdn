@@ -29,6 +29,7 @@ resource "azurerm_storage_account" "storeacc" {
   account_tier              = local.account_tier
   account_replication_type  = local.account_replication_type
   enable_https_traffic_only = var.enable_https_traffic
+  min_tls_version           = var.min_tls_version
   tags                      = merge({ "Name" = format("%s", var.storage_account_name) }, var.tags, )
 
   dynamic "static_website" {

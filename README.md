@@ -18,7 +18,7 @@ These types of resources are supported
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.1.0"
+  version = "2.2.0"
 
   # Resource Group, location, and Storage account details
   create_resource_group = true
@@ -39,6 +39,7 @@ module "static-website-cdn" {
 
   # Custom domain for CDN endpoint
   custom_domain_name = "web.example.com"
+  friendly_name      = "mywebapp"
   
   # Adding TAG's to your Azure resources (Required)
   tags = {
@@ -101,7 +102,7 @@ End Date of the Project|Date when this application, workload, or service is plan
 ```hcl
 module "static-website-cdn" {
   source  = "kumarvna/static-website-cdn/azurerm"
-  version = "2.1.0"
+  version = "2.2.0"
 
   # ... omitted
 
@@ -121,13 +122,13 @@ module "static-website-cdn" {
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| azurerm | ~> 2.27.0 |
+| azurerm | >= 2.59.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 2.27.0 |
+| azurerm | >= 2.59.0 |
 | null | n/a |
 | random | n/a |
 
@@ -137,7 +138,7 @@ module "static-website-cdn" {
 |------|-------------|------|---------|:--------:|
 | access\_tier | The access tier of the storage account. | `string` | `"Hot"` | no |
 | account\_kind | The kind of storage account. | `string` | `"StorageV2"` | no |
-| allowed\_headers | A list of headers that are allowed to be a part of the cross-origin request. | `list(string)` | `[]` | no |
+| allowed\_headers | A list of headers that are allowed to be a part of the cross-origin request. | `list(string)` | `["*"]` | no |
 | allowed\_methods | A list of http headers that are allowed to be executed by the origin. Valid options are `DELETE`, `GET`, `HEAD`, `MERGE`, `POST`, `OPTIONS`, `PUT` or `PATCH`. | `list(string)` | <pre>[<br>  "GET",<br>  "HEAD"<br>]</pre> | no |
 | allowed\_origins | A list of origin domains that will be allowed by CORS. | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | assign\_identity | Specifies the identity type of the Storage Account. At this time the only allowed value is SystemAssigned. | `bool` | `true` | no |
@@ -150,7 +151,7 @@ module "static-website-cdn" {
 | enable\_cdn\_profile | Controls the creation of CDN profile and endpoint for static website. Possible values are `true` or `false` | `bool` | `false` | no |
 | enable\_https\_traffic | Configure the storage account to accept requests from secure connections only. Possible values are `true` or `false` | `bool` | `true` | no |
 | enable\_static\_website | Controls if static website to be enabled on the storage account. Possible values are `true` or `false` | `bool` | `true` | no |
-| exposed\_headers | A list of response headers that are exposed to CORS clients. | `list(string)` | `[]` | no |
+| exposed\_headers | A list of response headers that are exposed to CORS clients. | `list(string)` | `["*"]` | no |
 | friendly\_name | The friendly name of your custom domain in the Azure Portal | `string` | n/a | yes |
 | index\_path | path from your repo root to index.html | `string` | `"index.html"` | no |
 | location | The location of the resource group in which resources are created | `string` | `""` | no |
@@ -181,7 +182,7 @@ module "static-website-cdn" {
 
 ## Authors
 
-Module is maintained by [Kumaraswamy Vithanala](mailto:kumarvna@gmail.com) with the help from other awesome contributors.
+Originally created by [Kumaraswamy Vithanala](mailto:kumarvna@gmail.com) and maintained with the help from [icornett](https://github.com/icornett)
 
 ## Other resources
 
