@@ -9,7 +9,7 @@ $azCdnCustomDomainName = $env:FRIENDLY_NAME
 
 try {
   Write-Host 'Checking for existing custom domain name...'
-  $azCustomDomain = Get-AzCdnCustomDomain -CustomDomainName $azCdnCustomDomainName -CdnEndpoint $endpoint
+  $azCustomDomain = Get-AzCdnCustomDomain -CustomDomainName $azCdnCustomDomainName -CdnEndpoint $endpoint -ErrorAction stop
 }
 catch {
   try {
