@@ -107,9 +107,10 @@ resource "null_resource" "add_custom_domain" {
   provisioner "local-exec" {
     command = "pwsh ${path.module}/Setup-AzCdnCustomDomain.ps1"
     environment = {
-      CUSTOM_DOMAIN = var.custom_domain_name
-      RG_NAME       = var.resource_group_name
-      FRIENDLY_NAME = var.friendly_name
+      CUSTOM_DOMAIN      = var.custom_domain_name
+      RG_NAME            = var.resource_group_name
+      FRIENDLY_NAME      = var.friendly_name
+      STATIC_CDN_PROFILE = var.cdn_profile_name
     }
   }
 }
