@@ -48,6 +48,11 @@ variable "enable_static_website" {
   default     = true
 }
 
+variable "upload_to_static_website" {
+  description = "Wether you want to upload something to the static website. Possible values are `true` or `false`"
+  default     = true
+}
+
 variable "static_website_source_folder" {
   description = "Set a source folder path to copy static website files to static website storage blob"
   default     = ""

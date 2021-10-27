@@ -57,7 +57,7 @@ resource "azurerm_storage_account" "storeacc" {
 
 # Following resource is not removed when we update the terraform plan with `false` after initial run. Need to check for the option to remove `$web` folder if we disable static website and update the plan. 
 resource "null_resource" "copyfilesweb" {
-  count = var.enable_static_website ? 1 : 0
+  count = var.upload_to_static_website ? 1 : 0
   provisioner "local-exec" {
     command = "az storage blob upload-batch --no-progress --account-name ${azurerm_storage_account.storeacc.name} -s ${var.static_website_source_folder} -d '$web' --output none"
   }

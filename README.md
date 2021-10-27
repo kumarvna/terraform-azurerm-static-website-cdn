@@ -56,7 +56,7 @@ By default, this module will not create a resource group and the name of an exis
 
 ## Static Website
 
-Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web. By default, this module enables the creation of a static website. To upload the static website content, set the folder path using argument `static_website_source_folder`.
+Azure Storage can serve static content (HTML, CSS, JavaScript, and image files) directly from a storage container named $web. By default, this module enables the creation of a static website. To upload the static website content, set the folder path using argument `static_website_source_folder`. I you just want to make a static website but do not want to upload anything, set `upload_to_static_website = false`
 
 ## CDN Endpoint for Static Website
 
@@ -161,6 +161,7 @@ module "static-website-cdn" {
 | static\_website\_source\_folder | Set a source folder path to copy static website files to static website storage blob | `string` | `""` | no |
 | storage\_account\_name | The name of the storage account to be created | `string` | `""` | no |
 | tags | A map of tags to add to all resources | `map(string)` | `{}` | no |
+| upload_to_static_website | Wether you want to upload something to the static website. Default is `true` for backward compatibility. | `bool` | `true` | no |
 
 ## Outputs
 
