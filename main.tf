@@ -100,6 +100,7 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
 
 resource "null_resource" "add_custom_domain" {
   count = var.custom_domain_name != null ? 1 : 0
+  triggers = { always_run = timestamp() }
   depends_on = [
     azurerm_cdn_endpoint.cdn-endpoint
   ]
