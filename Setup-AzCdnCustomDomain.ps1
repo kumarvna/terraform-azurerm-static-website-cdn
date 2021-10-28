@@ -14,7 +14,7 @@ try {
 catch {
   try {
     Write-Host "Enabling custom domain $env:CUSTOM_DOMAIN..."
-    $azCustomDomain = New-AzCdnCustomDomain -HostName $env:CUSTOM_DOMAIN -CdnEndpoint $endpoint -CustomDomainName $azCdnCustomDomainName
+    $azCustomDomain = New-AzCdnCustomDomain -HostName $env:CUSTOM_DOMAIN -CdnEndpoint $endpoint -CustomDomainName $azCdnCustomDomainName -ErrorAction stop
     continue;
   }
   catch {
@@ -26,7 +26,7 @@ catch {
 if ($azCustomDomain.CustomHttpsProvisioningState -ne ('Enabled' -or 'Enabling')) {
   try {
     Write-Host "Enabling HTTPS for $env:CUSTOM_DOMAIN..."
-    Enable-AzCdnCustomDomainHttps -ResourceId $azCustomDomain.Id
+    Enable-AzCdnCustomDomainHttps -ResourceId $azCustomDomain.Id -ErrorAction stop
   }
   catch {
     Write-Error "Error enabling HTTPS for $env:CUSTOM_DOMAIN..."
