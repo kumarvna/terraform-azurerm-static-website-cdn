@@ -23,7 +23,7 @@ catch {
   }
 }
 
-if ($azCustomDomain.CustomHttpsProvisioningState -ne ('Enabled' -or 'Enabling')) {
+if ($azCustomDomain.CustomHttpsProvisioningState -ne 'Enabled' -and $azCustomDomain.CustomHttpsProvisioningState -ne 'Enabling') {
   try {
     Write-Host "Enabling HTTPS for $env:CUSTOM_DOMAIN..."
     Enable-AzCdnCustomDomainHttps -ResourceId $azCustomDomain.Id -ErrorAction stop
