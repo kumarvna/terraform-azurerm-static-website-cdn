@@ -13,6 +13,11 @@ variable "location" {
   default     = ""
 }
 
+variable "cdn_location" {
+  description = "The location of the CDN profile and endpoint. Will be defaulted to 'location' if not set. Possible values are global,australiaeast,australiasoutheast,brazilsouth,canadacentral,canadaeast,centralindia,centralus,eastasia,eastus,eastus2,japaneast,japanwest,northcentralus,northeurope,southcentralus,southindia,southeastasia,westeurope,westindia,westus,westcentralus"
+  default     = null
+}
+
 variable "storage_account_name" {
   description = "The name of the storage account to be created"
   default     = ""
