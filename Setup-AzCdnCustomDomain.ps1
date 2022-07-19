@@ -13,7 +13,8 @@ try {
 }
 catch {
   try {
-    Write-Warning "At this point, you should have made a CNAME record like '$($env:CUSTOM_DOMAIN) IN CNAME $($endpoint.HostName).' Things WILL fail if you did not do that. In that case, please make this record, then relaunch me."
+        $dn=$($env:CUSTOM_DOMAIN) -Split "\."
+    Write-Warning "At this point, you should have made a CNAME record like '$($dn[0..($dn.Count-3)]) IN CNAME $($endpoint.HostName).' Things WILL fail if you did not do that. In that case, please make this record, then relaunch me."
     Write-Host "Enabling custom domain $env:CUSTOM_DOMAIN..."
     $azCustomDomain = New-AzCdnCustomDomain -HostName $env:CUSTOM_DOMAIN -EndpointName $endpoint.Name -CustomDomainName $azCdnCustomDomainName -ProfileName $cdnProfile.Name -ResourceGroupName $env:RG_NAME -ErrorAction stop
     continue;
