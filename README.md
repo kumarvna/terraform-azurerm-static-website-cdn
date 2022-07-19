@@ -123,6 +123,7 @@ module "static-website-cdn" {
 |------|---------|
 | terraform | >= 0.13 |
 | azurerm | >= 2.59.0 |
+| Az.Cdn | >= 2.0.0 |
 
 ## Providers
 
