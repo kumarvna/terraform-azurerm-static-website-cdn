@@ -13,6 +13,11 @@ variable "location" {
   default     = ""
 }
 
+variable "cdn_location" {
+  description = "The location of the CDN profile and endpoint. Will be defaulted to 'location' if not set. Possible values are global,australiaeast,australiasoutheast,brazilsouth,canadacentral,canadaeast,centralindia,centralus,eastasia,eastus,eastus2,japaneast,japanwest,northcentralus,northeurope,southcentralus,southindia,southeastasia,westeurope,westindia,westus,westcentralus"
+  default     = null
+}
+
 variable "storage_account_name" {
   description = "The name of the storage account to be created"
   default     = ""
@@ -45,6 +50,11 @@ variable "min_tls_version" {
 
 variable "enable_static_website" {
   description = "Controls if static website to be enabled on the storage account. Possible values are `true` or `false`"
+  default     = true
+}
+
+variable "upload_to_static_website" {
+  description = "Wether you want to upload something to the static website. Possible values are `true` or `false`"
   default     = true
 }
 
