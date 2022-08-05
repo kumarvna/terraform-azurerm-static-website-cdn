@@ -59,7 +59,16 @@ resource "azurerm_storage_account" "storeacc" {
 resource "null_resource" "copyfilesweb" {
   count = var.upload_to_static_website ? 1 : 0
   provisioner "local-exec" {
-    command = "az storage blob upload-batch --no-progress --account-name ${azurerm_storage_account.storeacc.name} -s ${var.static_website_source_folder} -d '$web' --output none"
+    command     = <<EOT
+    # Build a context using storage primary key
+    $c=New-AzStorageContext -StorageAccountName ${azurerm_storage_account.storeacc.name} -StorageAccountKey ${azurerm_storage_account.storeacc.primary_access_key}
+    # Build a 1 hour token and give it full access to the blob
+    $sas=New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Container,Object -Permission 'rwdl' -ExpiryTime (Get-Date).AddHours(1) -Context $c
+    # Upload directory's full content
+    Get-ChildItem -File -Recurse ${var.static_website_source_folder} | Set-AzStorageBlobContent -Container '$web' -Context $c -Force
+
+EOT
+    interpreter = ["pwsh", "-Command"]
   }
 }
 
@@ -99,7 +108,7 @@ resource "azurerm_cdn_endpoint" "cdn-endpoint" {
 }
 
 resource "null_resource" "add_custom_domain" {
-  count = var.custom_domain_name != null ? 1 : 0
+  count    = var.custom_domain_name != null ? 1 : 0
   triggers = { always_run = timestamp() }
   depends_on = [
     azurerm_cdn_endpoint.cdn-endpoint
