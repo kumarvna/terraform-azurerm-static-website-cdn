@@ -60,12 +60,43 @@ resource "null_resource" "copyfilesweb" {
   count = var.upload_to_static_website ? 1 : 0
   provisioner "local-exec" {
     command     = <<EOT
+    function Get-MimeType {
+      param(
+      [string] $FileName
+      )
+
+      $map=@{
+        ".jpg"  = "image/jpeg";
+        ".jpeg" = "image/jpeg";
+        ".gif"  = "image/gif";
+        ".png"  = "image/png";
+        ".tiff" = "image/tiff";
+        ".zip"  = "application/zip";
+        ".json" = "application/json";
+        ".js"   = "application/javascript";
+        ".html" = "text/html";
+        ".rar"  = "application/x-rar-compressed";
+        ".gzip" = "application/x-gzip";
+        ".gz" = "application/x-gzip";
+        ".svg"  = "image/svg+xml";
+        ".pdf"  = "application/pdf";
+        ".xml"  = "application/xml";
+        ".xls"  = "application/vnd.ms-excel";
+        ".xlsx" = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+      }
+      $File=Get-ChildItem "$FileName"
+      $map[$File.Extension.ToLower()] ? $map[$File.Extension.ToLower()] : "application/octet-stream" ;
+    }
     # Build a context using storage primary key
     $c=New-AzStorageContext -StorageAccountName ${azurerm_storage_account.storeacc.name} -StorageAccountKey ${azurerm_storage_account.storeacc.primary_access_key}
     # Build a 1 hour token and give it full access to the blob
     $sas=New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Container,Object -Permission 'rwdl' -ExpiryTime (Get-Date).AddHours(1) -Context $c
     # Upload directory's full content
-    Get-ChildItem -File -Recurse ${var.static_website_source_folder} | Set-AzStorageBlobContent -Container '$web' -Context $c -Force
+    # File by file, to get mime type
+    # Probably slow with many files...
+    Foreach ($file in (Get-ChildItem -File -Recurse ${var.static_website_source_folder} ) ) {
+      Set-AzStorageBlobContent -Container '$web' -Context $c -Properties  @{"ContentType" = (Get-MimeType -FileName "$file")} -Force -File $file
+    }
 
 EOT
     interpreter = ["pwsh", "-Command"]
