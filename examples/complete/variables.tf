@@ -11,7 +11,7 @@ variable "cdn_profile_name" {
 }
 
 variable "cdn_sku_profile" {
-  default = "Standard_Akamai"
+  default = "Standard_Microsoft"
 }
 
 variable "index_path" {
