@@ -49,7 +49,7 @@ variable "enable_static_website" {
 }
 
 variable "upload_to_static_website" {
-  description = "Wether you want to upload something to the static website. Possible values are `true` or `false`"
+  description = "Whether you want to upload something to the static website. Possible values are `true` or `false`"
   default     = true
 }
 

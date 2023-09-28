@@ -7,7 +7,7 @@ module "static-website-cdn" {
   location             = "westeurope"
   storage_account_name = "storageaccwesteupore01"
 
-  # Static Website createion set to true by default
+  # Static Website creation set to true by default
   # account_kind should set to StorageV2 or BlockBlobStorage
   static_website_source_folder = var.static_website_source_folder
   index_path                   = var.index_path
