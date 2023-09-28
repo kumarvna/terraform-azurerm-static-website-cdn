@@ -49,7 +49,7 @@ variable "enable_static_website" {
 }
 
 variable "upload_to_static_website" {
-  description = "Wether you want to upload something to the static website. Possible values are `true` or `false`"
+  description = "Whether you want to upload something to the static website. Possible values are `true` or `false`"
   default     = true
 }
 
@@ -74,8 +74,8 @@ variable "cdn_profile_name" {
 }
 
 variable "cdn_sku_profile" {
-  description = "The pricing related information of current CDN profile. Accepted values are 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Standard_Verizon' or 'Premium_Verizon'."
-  default     = "Standard_Akamai"
+  description = "The pricing related information of current CDN profile. Accepted values are 'Standard_Microsoft', 'Standard_ChinaCdn', 'Standard_Verizon' or 'Premium_Verizon'."
+  default     = "Standard_Microsoft"
 }
 
 variable "index_path" {

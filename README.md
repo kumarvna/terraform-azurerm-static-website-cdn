@@ -26,13 +26,13 @@ module "static-website-cdn" {
   location              = "westeurope"
   storage_account_name  = "storageaccwesteupore01"
 
-  # Static Website createion set to true by default
+  # Static Website creation set to true by default
   # account_kind should set to StorageV2 or BlockBlobStorage
   static_website_source_folder = var.static_website_source_folder
   index_path                   = var.index_path
   custom_404_path              = var.custom_404_path
 
-  # CDN endpoint for satic website
+  # CDN endpoint for static website
   enable_cdn_profile = true
   cdn_profile_name   = var.cdn_profile_name
   cdn_sku_profile    = var.cdn_sku_profile
@@ -143,7 +143,7 @@ module "static-website-cdn" {
 | allowed\_origins | A list of origin domains that will be allowed by CORS. | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | assign\_identity | Specifies the identity type of the Storage Account. At this time the only allowed value is SystemAssigned. | `bool` | `true` | no |
 | cdn\_profile\_name | Specifies the name of the CDN Profile | `string` | `""` | no |
-| cdn\_sku\_profile | The pricing related information of current CDN profile. Accepted values are 'Standard\_Akamai', 'Standard\_ChinaCdn', 'Standard\_Microsoft', 'Standard\_Verizon' or 'Premium\_Verizon'. | `string` | `"Standard_Akamai"` | no |
+| cdn\_sku\_profile | The pricing related information of current CDN profile. Accepted values are 'Standard\_Microsoft', 'Standard\_ChinaCdn', 'Standard\_Verizon' or 'Premium\_Verizon'. | `string` | `"Standard_Microsoft"` | no |
 | create\_resource\_group | Whether to create resource group and use it for all networking resources | `bool` | `false` | no |
 | custom\_404\_path | path from your repo root to your custom 404 page | `string` | `"404.html"` | no |
 | custom\_domain\_name | The custom domain name to use for your website | `string` | `null` | no |
@@ -161,7 +161,7 @@ module "static-website-cdn" {
 | static\_website\_source\_folder | Set a source folder path to copy static website files to static website storage blob | `string` | `""` | no |
 | storage\_account\_name | The name of the storage account to be created | `string` | `""` | no |
 | tags | A map of tags to add to all resources | `map(string)` | `{}` | no |
-| upload_to_static_website | Wether you want to upload something to the static website. Default is `true` for backward compatibility. | `bool` | `true` | no |
+| upload_to_static_website | Whether you want to upload something to the static website. Default is `true` for backward compatibility. | `bool` | `true` | no |
 
 ## Outputs
 
